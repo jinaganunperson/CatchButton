@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             clickbutton = new Button();
+            btnReset = new Button();
             SuspendLayout();
             // 
             // clickbutton
@@ -44,11 +45,24 @@
             clickbutton.Click += button1_Click;
             clickbutton.MouseEnter += button1_MouseEnter;
             // 
+            // btnReset
+            // 
+            btnReset.Font = new Font("맑은 고딕", 10.875F, FontStyle.Bold, GraphicsUnit.Point, 129);
+            btnReset.ForeColor = Color.Red;
+            btnReset.Location = new Point(925, 20);
+            btnReset.Name = "btnReset";
+            btnReset.Size = new Size(154, 57);
+            btnReset.TabIndex = 1;
+            btnReset.Text = "다시 시작";
+            btnReset.UseVisualStyleBackColor = true;
+            btnReset.Click += btnReset_Click_1;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(18F, 45F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1089, 636);
+            Controls.Add(btnReset);
             Controls.Add(clickbutton);
             Name = "Form1";
             Text = "버튼 잡기 게임";
@@ -59,5 +73,6 @@
         #endregion
 
         private Button clickbutton;
+        private Button btnReset;
     }
 }
