@@ -1,16 +1,16 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Media; // 1. 소리 재생을 위해 반드시 추가해야 합니다.
+using System.Media;
 
 namespace CatchButton
 {
     public partial class Form1 : Form
     {
-        // 2. 사운드 플레이어 객체 생성 (파일은 프로젝트의 bin\Debug 폴더에 있어야 합니다)
-        // .wav 파일만 지원하며, 파일명이 정확해야 합니다.
         SoundPlayer escapeSound = new SoundPlayer("escape.wav");
         SoundPlayer catchSound = new SoundPlayer("catch.wav");
+
+        int score = 0;
 
         public Form1()
         {
@@ -21,15 +21,28 @@ namespace CatchButton
         {
             catchSound.Play();
 
-            MessageBox.Show("축하합니다~!!");
+            score += 100;
+
+            int newWidth = (int)(clickbutton.Width * 0.9);
+            int newHeight = (int)(clickbutton.Height * 0.9);
+
+            if (newWidth > 10 && newHeight > 10)
+            {
+                clickbutton.Size = new Size(newWidth, newHeight);
+            }
+
+            UpdateTitle();
+
+            MessageBox.Show($"축하합니다~!");
         }
 
         private void button1_MouseEnter(object sender, EventArgs e)
         {
             escapeSound.Play();
 
-            Random rd = new Random();
+            score -= 10;
 
+            Random rd = new Random();
             int maxX = this.ClientSize.Width - clickbutton.Width;
             int maxY = this.ClientSize.Height - clickbutton.Height;
 
@@ -40,13 +53,25 @@ namespace CatchButton
             int nextY = rd.Next(0, maxY + 1);
 
             clickbutton.Location = new Point(nextX, nextY);
-            this.Text = $"버튼위치: ({nextX}, {nextY})";
+
+            UpdateTitle();
+        }
+
+        private void UpdateTitle()
+        {
+            this.Text = $"점수: {score} | 버튼 위치: ({clickbutton.Left}, {clickbutton.Top})";
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            escapeSound.Load();
-            catchSound.Load();
+            try
+            {
+                escapeSound.Load();
+                catchSound.Load();
+            }
+            catch {}
+
+            UpdateTitle(); 
         }
     }
 }
