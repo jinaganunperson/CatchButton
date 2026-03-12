@@ -1,7 +1,17 @@
+using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Media; // 1. 소리 재생을 위해 반드시 추가해야 합니다.
+
 namespace CatchButton
 {
     public partial class Form1 : Form
     {
+        // 2. 사운드 플레이어 객체 생성 (파일은 프로젝트의 bin\Debug 폴더에 있어야 합니다)
+        // .wav 파일만 지원하며, 파일명이 정확해야 합니다.
+        SoundPlayer escapeSound = new SoundPlayer("escape.wav");
+        SoundPlayer catchSound = new SoundPlayer("catch.wav");
+
         public Form1()
         {
             InitializeComponent();
@@ -9,29 +19,34 @@ namespace CatchButton
 
         private void button1_Click(object sender, EventArgs e)
         {
+            catchSound.Play();
 
+            MessageBox.Show("축하합니다~!!");
         }
 
         private void button1_MouseEnter(object sender, EventArgs e)
         {
-            // 1. 난수생성기준비
-            Random rd= new Random();
-            // 2. 가용영역계산(버튼이폼테두리에걸리지않게보호)
-            // ClientSize는타이틀바와테두리를제외한실제흰도화지영역임
-            int maxX= this.ClientSize.Width - clickbutton.Width;
-            int maxY= this.ClientSize.Height - clickbutton.Height;
-            // 3. 랜덤좌표추출(0 ~ 최대가용치사이)
-            int nextX= rd.Next(0, maxX + 1);
-            int nextY= rd.Next(0, maxY + 1);
-            // 4. 위치할당(새로운Point 객체생성)
-            clickbutton.Location= new Point(nextX, nextY);
-            // 5. 시각적피드백(폼제목표시줄에좌표출력)
-            this.Text= $"버튼위치: ({nextX}, {nextY})";
+            escapeSound.Play();
+
+            Random rd = new Random();
+
+            int maxX = this.ClientSize.Width - clickbutton.Width;
+            int maxY = this.ClientSize.Height - clickbutton.Height;
+
+            if (maxX < 0) maxX = 0;
+            if (maxY < 0) maxY = 0;
+
+            int nextX = rd.Next(0, maxX + 1);
+            int nextY = rd.Next(0, maxY + 1);
+
+            clickbutton.Location = new Point(nextX, nextY);
+            this.Text = $"버튼위치: ({nextX}, {nextY})";
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            escapeSound.Load();
+            catchSound.Load();
         }
     }
 }
