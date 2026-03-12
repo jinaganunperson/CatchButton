@@ -79,7 +79,7 @@ namespace CatchButton
 
             // 3. 제목 업데이트
             UpdateTitle();
-            MessageBox.Show("게임을 다시 시작합니다!", "리셋");
+            MessageBox.Show("리셋합니다");
         }
 
         private void UpdateTitle()
